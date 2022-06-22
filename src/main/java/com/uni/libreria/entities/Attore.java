@@ -1,9 +1,12 @@
 package com.uni.libreria.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.sql.Date;
+import java.util.List;
 import java.util.Set;
 
 @Data
@@ -25,6 +28,9 @@ public class Attore {
 
     @Basic
     @Column(name="immagine", nullable = true, length = Integer.MAX_VALUE)
+    @Lob
+    @JsonIgnore
+    @ToString.Exclude
     private byte[] immagine;
 
     @Basic
@@ -41,5 +47,9 @@ public class Attore {
     private String città;
 
     @ManyToMany(mappedBy = "attori")
-    private Set<Film> film;
+    @ToString.Exclude
+    @JsonIgnore
+    private List<Film> film;
+
+    //TUTTO VERIFICATO
 }

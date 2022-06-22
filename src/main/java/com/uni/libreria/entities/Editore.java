@@ -1,8 +1,11 @@
 package com.uni.libreria.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
+import lombok.ToString;
 
 import javax.persistence.*;
+import java.util.List;
 import java.util.Set;
 
 @Data
@@ -19,20 +22,29 @@ public class Editore {
     private String nome;
 
     @Basic
-    @Column(name="immagine", nullable = false, length = Integer.MAX_VALUE)
+    @Column(name="immagine", nullable = true, length = Integer.MAX_VALUE)
+    @Lob
+    @JsonIgnore
+    @ToString.Exclude
     private byte[] immagine;
 
     @Basic
-    @Column(name="descrizione", nullable = false, length = 1000)
+    @Column(name="descrizione", nullable = true, length = 1000)
     private String descrizione;
 
     @OneToMany(mappedBy = "editore")
-    private Set<Libro> libri;
+    @JsonIgnore
+    @ToString.Exclude
+    private List<Libro> libri;
 
     @OneToMany(mappedBy = "editore")
+    @JsonIgnore
+    @ToString.Exclude
     private Set<Film> film;
 
-    @OneToMany(mappedBy = "editore")
+    @OneToMany(mappedBy = "editore", cascade = CascadeType.MERGE)
+    @JsonIgnore
+    @ToString.Exclude
     private Set<Cd> cd;
 
 }

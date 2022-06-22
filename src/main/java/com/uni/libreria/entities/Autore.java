@@ -1,9 +1,12 @@
 package com.uni.libreria.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.sql.Date;
+import java.util.List;
 import java.util.Set;
 
 @Data
@@ -38,11 +41,16 @@ public class Autore {
 
     @Basic
     @Column(name="immagine", nullable = true, length = Integer.MAX_VALUE)
+    @Lob
+    @JsonIgnore
+    @ToString.Exclude
     private byte[] immagine;
 
     @ManyToMany(mappedBy = "autori")
-    private Set<Libro> libri;
+    @ToString.Exclude
+    @JsonIgnore
+    private List<Libro> libri;
 
-
+    //TUTTO VERIFICATO
 
 }

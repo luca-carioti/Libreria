@@ -1,9 +1,12 @@
 package com.uni.libreria.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.sql.Date;
+import java.util.List;
 import java.util.Set;
 
 @Data
@@ -25,6 +28,7 @@ public class Cliente {
 
     @Basic
     @Column(name="data_nascita", nullable = false)
+    @Temporal(TemporalType.DATE)
     private Date data_nascita;
 
     @Basic
@@ -39,9 +43,13 @@ public class Cliente {
     @Column(name="indirizzo", nullable=false, length = 50)
     private String indirizzo;
 
-    @OneToMany(mappedBy = "cliente")
-    private Set<Acquisto> acquisti;
+    @OneToMany(mappedBy = "cliente", cascade = CascadeType.REMOVE)
+    @ToString.Exclude
+    @JsonIgnore
+    private List<Ordine> ordini;
 
     @OneToOne
+    @JsonIgnore
+    @ToString.Exclude
     private Carrello carrello;
 }

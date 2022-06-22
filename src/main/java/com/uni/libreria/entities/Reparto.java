@@ -4,6 +4,7 @@ import lombok.Data;
 
 
 import javax.persistence.*;
+import java.util.List;
 import java.util.Set;
 
 
@@ -23,14 +24,8 @@ public class Reparto {
     @Column(name="descrizione", nullable = true, length = 1000)
     private String descrizione;
 
-    @OneToMany(mappedBy="reparto")
-    private Set<Libro> libri;
-
-    @OneToMany(mappedBy = "reparto")
-    private Set<Film> film;
-
-    @OneToMany(mappedBy = "reparto")
-    private Set<Cd> cd;
+    @OneToMany(mappedBy = "reparto", cascade = CascadeType.MERGE)
+    private List<Prodotto> prodotti;
 
 
 

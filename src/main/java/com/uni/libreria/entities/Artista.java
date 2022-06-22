@@ -1,6 +1,8 @@
 package com.uni.libreria.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
+import lombok.ToString;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import javax.persistence.*;
@@ -26,6 +28,9 @@ public class Artista {
 
     @Basic
     @Column(name="immagine", nullable = true, length = Integer.MAX_VALUE)
+    @Lob
+    @JsonIgnore
+    @ToString.Exclude
     private byte[] immagine;
 
     @Basic
@@ -42,7 +47,11 @@ public class Artista {
     private String città;
 
     @ManyToMany(mappedBy = "artisti")
+    @ToString.Exclude
+    @JsonIgnore
     private Set<Cd> cd;
+
+    //TUTTO VERIFICATO
 
 
 }
