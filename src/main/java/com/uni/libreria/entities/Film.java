@@ -1,11 +1,12 @@
 package com.uni.libreria.entities;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.Generated;
 
 import javax.persistence.*;
-import java.sql.Date;
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
@@ -26,7 +27,8 @@ public class Film {
     @Basic
     @Column(name="data_pubblicazione", nullable = false)
     @Temporal(TemporalType.DATE)
-    private Date data_pubblicazione;
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    private Date dataPubblicazione;
 
     @ManyToMany
     @JoinTable(
@@ -44,12 +46,7 @@ public class Film {
     @JsonIgnore
     private List<Regista> registi;
 
-    @OneToOne(mappedBy = "film")
+    @OneToOne(cascade = CascadeType.REMOVE)
+    @JoinColumn(name = "prodotto", referencedColumnName = "id")
     private Prodotto prodotto;
-
-    //TUTTO VERIFICATO
-
-
-
-
 }

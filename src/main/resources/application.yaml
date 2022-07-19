@@ -3,8 +3,8 @@ spring:
     oauth2:
       resourceserver:
         jwt:
-          jwk-set-uri: http://localhost:8443/auth/realms/rendicontation/protocol/openid-connect/certs
-          issuer-uri: http://localhost:8443/auth/realms/rendicontation
+          jwk-set-uri: http://localhost:8081/auth/realms/SpringBoot/protocol/openid-connect/certs
+          issuer-uri: http://localhost:8081/auth/realms/SpringBoot
   application:
     name: Libreria
   datasource:
@@ -16,19 +16,19 @@ spring:
     database-platform: org.hibernate.dialect.MySQL5Dialect
 
 server:
-  #ssl:
-  #key-store-password: password_certificate
-  #key-store-type: PKCS12
-  #key-store: /home/debian/ssl-cert/certificate.p12
+#  ssl:
+#  key-store-password: password_certificate
+#  key-store-type: PKCS12
+#  key-store: /home/debian/ssl-cert/certificate.p12
   compression:
     enabled: 'true'
-  port: '8080'
+  port: '8081'
 
-  #security:
-  #require-ssl: 'true'
+  security:
+  require-ssl: 'true'
 
-#keycloak:
-  #resource: fakestore-flutter
+keycloak:
+  resource: libreria
 
 logging:
   level:

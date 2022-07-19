@@ -1,9 +1,13 @@
 package com.uni.libreria.entities;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
+import lombok.ToString;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
-import java.sql.Date;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -11,7 +15,7 @@ import java.util.List;
 @Table(name="ordine")
 public class Ordine {
 
-    private enum Stato {INVIATO, IN_PREPARAZIONE, SPEDITO, CONSEGNATO}
+    public enum Stato {INVIATO, IN_PREPARAZIONE, SPEDITO, CONSEGNATO}
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -33,17 +37,20 @@ public class Ordine {
     @Basic
     @Column(name = "data", nullable = false)
     @Temporal(TemporalType.DATE)
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private Date data;
 
     @Basic
     @Column(name="stato", nullable = false)
-    @Enumerated(EnumType.ORDINAL)
+    @Enumerated(EnumType.STRING)
     private Stato stato;
 
     @ManyToOne
+    @JoinColumn(name = "cliente",referencedColumnName = "id")
     private Cliente cliente;
 
-    @OneToMany(mappedBy = "ordine", cascade = CascadeType.MERGE)
+    @OneToMany(mappedBy = "ordine", cascade = CascadeType.REMOVE)
+    @ToString.Exclude
     private List<ProdottoInOrdine> prodottoInOrdine;
 
 

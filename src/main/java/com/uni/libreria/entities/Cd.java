@@ -1,19 +1,21 @@
 package com.uni.libreria.entities;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.Generated;
 import lombok.ToString;
 
 import javax.persistence.*;
-import java.sql.Date;
+import java.util.Date;
+import java.util.List;
 import java.util.Set;
 
 @Data
 @Entity
 @Table(name="cd")
 public class Cd {
-    private enum Disponibilità {IMMEDIATA, PROSSIME_USCITE, IN_PRENOTAZIONE}
+
 
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
@@ -21,13 +23,14 @@ public class Cd {
     private int id;
 
     @ManyToOne (cascade = CascadeType.MERGE)
-    @JoinColumn(name="editore")
+    @JoinColumn(name="editore", referencedColumnName = "id")
     private Editore editore;
 
     @Basic
     @Column(name="data_pubblicazione", nullable = true)
     @Temporal(TemporalType.DATE)
-    private Date data_pubblicazione;
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    private Date dataPubblicazione;
 
     @ManyToMany
     @JoinTable(
@@ -36,14 +39,10 @@ public class Cd {
             inverseJoinColumns = @JoinColumn(name="artista"))
     @JsonIgnore
     @ToString.Exclude
-    private Set<Artista> artisti;
+    private List<Artista> artisti;
 
-    @OneToOne(mappedBy = "cd")
+    @OneToOne(cascade = CascadeType.REMOVE)
+    @JoinColumn(name = "prodotto", referencedColumnName = "id")
     private Prodotto prodotto;
-
-    //TUTTO VERIFICATO
-
-
-
 
 }

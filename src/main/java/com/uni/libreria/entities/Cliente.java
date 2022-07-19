@@ -1,11 +1,12 @@
 package com.uni.libreria.entities;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.ToString;
 
 import javax.persistence.*;
-import java.sql.Date;
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
@@ -29,7 +30,8 @@ public class Cliente {
     @Basic
     @Column(name="data_nascita", nullable = false)
     @Temporal(TemporalType.DATE)
-    private Date data_nascita;
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    private Date dataNascita;
 
     @Basic
     @Column(name="mail", nullable=false, length = 50)
@@ -49,6 +51,7 @@ public class Cliente {
     private List<Ordine> ordini;
 
     @OneToOne
+    @JoinColumn(name = "carrello", referencedColumnName = "id")
     @JsonIgnore
     @ToString.Exclude
     private Carrello carrello;

@@ -40,11 +40,11 @@ public class Editore {
     @OneToMany(mappedBy = "editore")
     @JsonIgnore
     @ToString.Exclude
-    private Set<Film> film;
+    private List<Film> film;
 
     @OneToMany(mappedBy = "editore", cascade = CascadeType.MERGE)
     @JsonIgnore
     @ToString.Exclude
-    private Set<Cd> cd;
+    private List<Cd> cd;
 
 }

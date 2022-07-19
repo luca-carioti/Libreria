@@ -6,7 +6,7 @@ import lombok.ToString;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import javax.persistence.*;
-import java.sql.Date;
+import java.util.Date;
 import java.util.Set;
 
 @Data

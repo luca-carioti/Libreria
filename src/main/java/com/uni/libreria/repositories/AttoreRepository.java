@@ -11,5 +11,7 @@ import java.util.List;
 @Repository
 public interface AttoreRepository extends JpaRepository<Attore,Integer> {
     List<Attore> findByNomeContainingAndCognomeContaining(String nome, String cognome);
+    Attore findById(int id);
 
+    //FINITO
 }

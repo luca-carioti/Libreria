@@ -3,16 +3,17 @@ package com.uni.libreria.entities;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.ToString;
+import org.apache.commons.lang3.builder.ToStringExclude;
 
 import javax.persistence.*;
 import java.util.List;
 
 @Entity
 @Data
-@Table(name="prodotto")
+@Table(name="prodotto", schema="libreria")
 public class Prodotto {
 
-    private enum Disponibilità{IMMEDIATA, PROSSIME_USCITE, IN_PRENOTAZIONE}
+    public enum Disponibilita {IMMEDIATA, PROSSIME_USCITE , IN_PRENOTAZIONE}
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,11 +25,11 @@ public class Prodotto {
     private String nome;
 
     @Basic
-    @Column(name="descrizione", nullable = true, length = 1000)
+    @Column(name="descrizione", length = 1000)
     private String descrizione;
 
     @Basic
-    @Column(name = "immagine", nullable = true, length = Integer.MAX_VALUE)
+    @Column(name = "immagine", length = Integer.MAX_VALUE)
     @Lob
     @JsonIgnore
     @ToString.Exclude
@@ -38,19 +39,24 @@ public class Prodotto {
     @JoinColumn(name = "reparto")
     private Reparto reparto;
 
-    @OneToMany(mappedBy = "prodotto", cascade = CascadeType.MERGE)
+    @OneToMany(mappedBy = "prodotto", cascade = CascadeType.REMOVE)
+    @JsonIgnore
+    @ToStringExclude
     private List<ProdottoInOrdine> prodottoInOrdine;
 
-    @OneToOne
-    @Column(name = "libro", nullable = true)
+    @OneToOne(cascade = CascadeType.REMOVE)
+    @JoinColumn(name = "libro", referencedColumnName = "id")
+    @JsonIgnore
     private Libro libro;
 
-    @OneToOne
-    @Column(name="cd", nullable = true)
+    @OneToOne(cascade = CascadeType.REMOVE)
+    @JoinColumn(name="cd", referencedColumnName = "id")
+    @JsonIgnore
     private Cd cd;
 
-    @OneToOne
-    @Column(name = "film", nullable = true)
+    @OneToOne(cascade = CascadeType.REMOVE)
+    @JoinColumn(name = "film", referencedColumnName = "id")
+    @JsonIgnore
     private Film film;
 
     @Basic
@@ -59,18 +65,16 @@ public class Prodotto {
 
     @Basic
     @Column(name="quantità", nullable = false)
-    private int quantità;
+    private int quantita;
 
     @Basic
     @Column(name = "disponibilità", nullable = false)
-    @Enumerated(EnumType.ORDINAL)
-    private Disponibilità disponibilità;
+    @Enumerated(EnumType.STRING)
+    private Disponibilita disponibilita;
 
-    @OneToMany(mappedBy = "prodotto", cascade = CascadeType.MERGE)
+    @OneToMany(mappedBy = "prodotto", cascade = CascadeType.REMOVE)
     @JsonIgnore
     @ToString.Exclude
     private List<ProdottoInCarrello> prodottoInCarrello;
-
-    //TUTTO VERIFICATO
 
 }

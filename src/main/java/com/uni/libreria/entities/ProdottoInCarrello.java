@@ -1,6 +1,8 @@
 package com.uni.libreria.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
+import lombok.ToString;
 
 import javax.persistence.*;
 
@@ -16,18 +18,19 @@ public class ProdottoInCarrello {
 
     @Basic
     @Column(name="quantità", nullable = false)
-    private int quantità;
+    private int quantita;
 
     @Basic
     @Column(name="totale", nullable = false)
     private float totale;
 
     @ManyToOne (cascade = CascadeType.MERGE)
-    @JoinColumn(name="prodotto")
+    @JoinColumn(name="prodotto", referencedColumnName = "id")
     private Prodotto prodotto;
 
     @ManyToOne (cascade = CascadeType.MERGE)
-    @JoinColumn(name="carrello")
+    @JoinColumn(name="carrello", referencedColumnName = "id")
+    @ToString.Exclude
     private Carrello carrello;
 
 }

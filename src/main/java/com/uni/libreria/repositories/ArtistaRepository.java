@@ -9,4 +9,7 @@ import java.util.List;
 @Repository
 public interface ArtistaRepository extends JpaRepository<Artista,Integer> {
     List<Artista>  findByNomeContainingAndCognomeContaining(String nome, String cognome);
+    Artista findById(int id);
+
+    //FINITO
 }

@@ -1,9 +1,12 @@
 package com.uni.libreria.entities;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
+import lombok.ToString;
 
 import javax.persistence.*;
-import java.sql.Date;
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
@@ -20,17 +23,20 @@ public class Carrello {
     @Basic
     @Column(name="data_creazione", nullable = false)
     @Temporal(TemporalType.DATE)
-    private Date data_creazione;
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    private Date dataCreazione;
 
-    @OneToOne (mappedBy = "carrello")
+    @OneToOne
+    @JoinColumn(name = "cliente", referencedColumnName = "id")
     private Cliente cliente;
 
     @OneToMany(mappedBy = "carrello", cascade = CascadeType.MERGE)
+    @JsonIgnore
+    @ToString.Exclude
     private List<ProdottoInCarrello> prodottoInCarrello;
 
     @Basic
     @Column(name="totale", nullable = false)
     private int totale;
 
-    //TUTTO VERIFICATO
 }

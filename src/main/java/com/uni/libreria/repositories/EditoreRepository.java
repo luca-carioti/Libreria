@@ -7,4 +7,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface EditoreRepository extends JpaRepository<Editore, Integer> {
     Editore findByNomeContaining(String nome);
+    Editore findById(int id);
+
+    //TERMINATO
 }

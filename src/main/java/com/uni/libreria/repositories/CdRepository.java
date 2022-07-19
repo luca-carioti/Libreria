@@ -9,21 +9,22 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface CdRepository extends JpaRepository<Cd,Integer> {
-    Page<Cd> findByNameContaining(String name, Pageable pageable);
-    Cd findById();
+
+
+    Cd findById(int id);
+    @Query("select c from Cd c inner join c.prodotto p where (p.reparto=?1)")
     Page<Cd> findByReparto(Reparto reparto, Pageable pageable);
     Page<Cd> findByEditore(Editore editore, Pageable pageable);
 
     @Query(
-            "select c from Cd  c " +
-                    "where (c.reparto = ?1 or ?1 is null) and " +
-                    "(c.disponibilità=?2 or ?2 is null) and" +
-                    "(c.prezzo <= ?3 or ?3 is null)"
+            "select c from Cd  c inner join c.prodotto p " +
+                    "where (p.reparto = ?1 or ?1 is null) and " +
+                    "(p.disponibilita=?2 or ?2 is null) and" +
+                    "(p.prezzo <= ?3 or ?3 is null)"
     )
-    Page<Cd> advancedSearch(Reparto reparto, String disponibilità, Integer prezzo);
+    Page<Cd> advancedSearch(Reparto reparto, Prodotto.Disponibilita disponibilita, Float prezzo, Pageable pageable);
 
     @Query("select c from Cd c join c.artisti a where a=?1")
     Page<Cd> findByArtista(Artista artista, Pageable pageable);
-
 
 }

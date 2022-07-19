@@ -1,6 +1,8 @@
 package com.uni.libreria.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
+import org.apache.commons.lang3.builder.ToStringExclude;
 
 
 import javax.persistence.*;
@@ -25,6 +27,8 @@ public class Reparto {
     private String descrizione;
 
     @OneToMany(mappedBy = "reparto", cascade = CascadeType.MERGE)
+    @JsonIgnore
+    @ToStringExclude
     private List<Prodotto> prodotti;
 
 

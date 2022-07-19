@@ -1,5 +1,6 @@
 package com.uni.libreria.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -16,7 +17,7 @@ public class ProdottoInOrdine {
 
     @Basic
     @Column(name="quantità", nullable = false)
-    private int quantità;
+    private int quantita;
 
     @Basic
     @Column(name="totale", nullable = false)
@@ -28,9 +29,7 @@ public class ProdottoInOrdine {
 
     @ManyToOne (cascade = CascadeType.MERGE)
     @JoinColumn(name="ordine")
+    @JsonIgnore
     private Ordine ordine;
-
-    //dovebbe essere finito anche lui
-
 
 }
